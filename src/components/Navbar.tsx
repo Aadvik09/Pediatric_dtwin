@@ -1,14 +1,18 @@
 import { useState } from 'react';
-import { Activity, Home as HomeIcon, Heart, Map, Menu, X } from 'lucide-react';
+import { Activity, Home as HomeIcon, Heart, Gamepad2, ClipboardList, Camera, Menu, X } from 'lucide-react';
 import { useMode } from '../context/ModeContext';
 import { ModeSwitch } from './ModeSwitch';
 
-export type PageId = 'home' | 'twin' | 'quest';
+export type PageId = 'home' | 'twin' | 'quest' | 'checkups' | 'media';
 
-const navItems: { id: PageId; label: string; childLabel: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { id: 'home', label: 'Home', childLabel: 'Home', icon: HomeIcon },
-  { id: 'twin', label: 'Digital Twin', childLabel: 'My Body', icon: Heart },
-  { id: 'quest', label: 'Quest Game', childLabel: 'Adventure', icon: Map },
+interface NavItem { id: PageId; parentLabel: string; childLabel: string; icon: React.ComponentType<{ className?: string }>; parentOnly?: boolean }
+
+const navItems: NavItem[] = [
+  { id: 'home', parentLabel: 'Home', childLabel: 'Home', icon: HomeIcon },
+  { id: 'twin', parentLabel: 'Digital Twin', childLabel: 'My Body', icon: Heart },
+  { id: 'checkups', parentLabel: 'Checkups', childLabel: 'Checkups', icon: ClipboardList, parentOnly: true },
+  { id: 'media', parentLabel: 'Community', childLabel: 'Community', icon: Camera, parentOnly: true },
+  { id: 'quest', parentLabel: 'Quest RPG', childLabel: 'Adventure', icon: Gamepad2 },
 ];
 
 export function Navbar({ page, onNavigate }: { page: PageId; onNavigate: (p: PageId) => void }) {
@@ -16,54 +20,44 @@ export function Navbar({ page, onNavigate }: { page: PageId; onNavigate: (p: Pag
   const [open, setOpen] = useState(false);
   const isChild = mode === 'child';
 
+  const visible = navItems.filter((n) => !n.parentOnly || !isChild);
   const go = (p: PageId) => { onNavigate(p); setOpen(false); };
 
   return (
     <header className="sticky top-0 z-50 glass border-b" style={{ borderColor: 'var(--border)' }}>
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 h-16 flex items-center gap-3">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center gap-3">
         <button onClick={() => go('home')} className="flex items-center gap-2.5 group shrink-0">
           <span
-            className="grid place-items-center h-9 w-9 rounded-xl text-white transition-transform group-hover:scale-110 group-hover:rotate-6"
-            style={{ background: isChild ? 'linear-gradient(135deg,#ffd24d,#f59e0b)' : 'linear-gradient(135deg,#588dff,#1d4ef5)' }}
+            className="grid place-items-center h-9 w-9 rounded-xl text-white transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+            style={{ background: isChild ? 'linear-gradient(135deg,#fbbf24,#ea8a00)' : 'linear-gradient(135deg,#3b82f6,#1d4ed8)' }}
           >
             <Activity className="h-5 w-5" />
           </span>
-          <span className="font-display font-extrabold text-lg tracking-tight">
+          <span className="font-display font-extrabold text-lg tracking-tight hidden sm:block">
             Health<span style={{ color: 'var(--brand)' }}>Quest</span>
           </span>
         </button>
 
         <nav className="hidden md:flex items-center gap-1 ml-4">
-          {navItems.map((item) => {
+          {visible.map((item) => {
             const active = page === item.id;
             return (
               <button
                 key={item.id}
                 onClick={() => go(item.id)}
-                className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${active ? 'text-white' : 'text-muted hover:text-[var(--text)]'}`}
+                className={`relative px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${active ? 'text-white' : 'text-muted hover:text-[var(--text)]'}`}
               >
-                {active && (
-                  <span
-                    className="absolute inset-0 rounded-lg -z-10 animate-pop"
-                    style={{ background: 'var(--brand)' }}
-                  />
-                )}
+                {active && <span className="absolute inset-0 rounded-lg -z-10 animate-pop" style={{ background: 'var(--brand)' }} />}
                 <item.icon className="h-4 w-4" />
-                {isChild ? item.childLabel : item.label}
+                {isChild ? item.childLabel : item.parentLabel}
               </button>
             );
           })}
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
-          <div className="hidden sm:block">
-            <ModeSwitch size="sm" />
-          </div>
-          <button
-            className="md:hidden btn btn-ghost h-9 w-9 p-0"
-            onClick={() => setOpen((o) => !o)}
-            aria-label="Toggle menu"
-          >
+          <div className="hidden sm:block"><ModeSwitch size="sm" /></div>
+          <button className="md:hidden btn btn-ghost h-9 w-9 p-0" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu">
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
@@ -71,7 +65,7 @@ export function Navbar({ page, onNavigate }: { page: PageId; onNavigate: (p: Pag
 
       {open && (
         <div className="md:hidden border-t px-5 py-3 space-y-1 animate-fade-in" style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}>
-          {navItems.map((item) => (
+          {visible.map((item) => (
             <button
               key={item.id}
               onClick={() => go(item.id)}
@@ -79,12 +73,10 @@ export function Navbar({ page, onNavigate }: { page: PageId; onNavigate: (p: Pag
               style={page === item.id ? { background: 'var(--brand)' } : {}}
             >
               <item.icon className="h-4 w-4" />
-              {isChild ? item.childLabel : item.label}
+              {isChild ? item.childLabel : item.parentLabel}
             </button>
           ))}
-          <div className="pt-2 flex justify-center">
-            <ModeSwitch size="sm" />
-          </div>
+          <div className="pt-2 flex justify-center"><ModeSwitch size="sm" /></div>
         </div>
       )}
     </header>

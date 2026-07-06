@@ -4,11 +4,15 @@ import { Navbar, type PageId } from './components/Navbar';
 import { Home } from './pages/Home';
 import { Twin } from './pages/Twin';
 import { QuestGame } from './pages/Quest';
+import { Checkups } from './pages/Checkups';
+import { Media } from './pages/Media';
+
+const VALID: PageId[] = ['home', 'twin', 'quest', 'checkups', 'media'];
 
 function App() {
   const [page, setPage] = useState<PageId>(() => {
     const hash = window.location.hash.replace('#/', '');
-    return (['home', 'twin', 'quest'].includes(hash) ? hash : 'home') as PageId;
+    return (VALID.includes(hash as PageId) ? hash : 'home') as PageId;
   });
 
   const navigate = (p: PageId) => {
@@ -20,7 +24,7 @@ function App() {
   useEffect(() => {
     const onHash = () => {
       const h = window.location.hash.replace('#/', '');
-      if (['home', 'twin', 'quest'].includes(h)) setPage(h as PageId);
+      if (VALID.includes(h as PageId)) setPage(h as PageId);
     };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
@@ -34,6 +38,8 @@ function App() {
           {page === 'home' && <Home onNavigate={navigate} />}
           {page === 'twin' && <Twin onNavigate={navigate} />}
           {page === 'quest' && <QuestGame />}
+          {page === 'checkups' && <Checkups />}
+          {page === 'media' && <Media />}
         </main>
         <Footer onNavigate={navigate} />
       </div>
@@ -44,7 +50,7 @@ function App() {
 function Footer({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
     <footer className="border-t mt-8" style={{ borderColor: 'var(--border)' }}>
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <span className="grid place-items-center h-7 w-7 rounded-lg text-white" style={{ background: 'var(--brand)' }}>
             <span className="text-xs font-bold">H</span>
@@ -55,6 +61,8 @@ function Footer({ onNavigate }: { onNavigate: (p: PageId) => void }) {
           <button onClick={() => onNavigate('home')} className="hover:text-[var(--text)] transition-colors">Home</button>
           <button onClick={() => onNavigate('twin')} className="hover:text-[var(--text)] transition-colors">Digital Twin</button>
           <button onClick={() => onNavigate('quest')} className="hover:text-[var(--text)] transition-colors">Quest</button>
+          <button onClick={() => onNavigate('checkups')} className="hover:text-[var(--text)] transition-colors">Checkups</button>
+          <button onClick={() => onNavigate('media')} className="hover:text-[var(--text)] transition-colors">Community</button>
         </div>
         <div className="text-xs text-muted">A demo digital-twin concept · No real medical data</div>
       </div>

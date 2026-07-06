@@ -1,7 +1,5 @@
-import {
-  createContext, useContext, useEffect, useMemo, useState, type ReactNode,
-} from 'react';
-import type { AgeGroup } from '../data/content';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { type AgeGroup } from '../data/anatomy';
 
 interface ModeState {
   mode: AgeGroup;
@@ -31,7 +29,7 @@ export function ModeProvider({ children }: { children: ReactNode }) {
   const value = useMemo<ModeState>(() => ({
     mode,
     setMode: setModeState,
-    toggle: () => setModeState((m) => (m === 'parent' ? 'child' : 'parent')),
+    toggle: () => setModeState((m: AgeGroup) => (m === 'parent' ? 'child' : 'parent')),
   }), [mode]);
 
   return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;
