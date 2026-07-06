@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f6f7fb;
+  --surface: #ffffff;
+  --text: #222635;
+  --muted: #6774a3;
+  --border: #ebedf6;
+  --brand: #3168fb;
+  --brand-strong: #1d4ef5;
+  --accent: #1bb88a;
+  --warn: #f59e0b;
+  --danger: #f44925;
+  --ring: rgba(49,104,251,0.45);
+}
+
+html.child-mode {
+  --bg: #fffdf6;
+  --bg-alt: #fff8e8;
+  --surface: #ffffff;
+  --text: #4a3416;
+  --muted: #a07f43;
+  --border: #f6e6c1;
+  --brand: #f59e0b;
+  --brand-strong: #d97706;
+  --accent: #41d3a8;
+  --warn: #ff9a82;
+  --danger: #f44925;
+  --ring: rgba(245,158,11,0.45);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    font-family: theme('fontFamily.body');
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.6s ease, color 0.6s ease;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: theme('fontFamily.display');
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--ring);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .surface {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[0.97] select-none;
+  }
+  .btn-primary {
+    background: var(--brand);
+    color: #fff;
+    box-shadow: 0 10px 25px -10px var(--brand-strong);
+  }
+  .btn-primary:hover {
+    background: var(--brand-strong);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+  }
+  .btn-ghost:hover {
+    background: var(--bg-alt);
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 50px -24px rgba(20,31,87,0.18);
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
+  }
+  .glass {
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  .text-muted {
+    color: var(--muted);
+  }
+  .ring-focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+}
+
+@layer utilities {
+  .shimmer-text {
+    background: linear-gradient(110deg, var(--text) 30%, var(--brand) 50%, var(--text) 70%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .perspective {
+    perspective: 1200px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* Quest game world */
+.world-grid {
+  background-image:
+    linear-gradient(to right, rgba(125, 110, 220, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(125, 110, 220, 0.12) 1px, transparent 1px);
+  background-size: 48px 48px;
+}

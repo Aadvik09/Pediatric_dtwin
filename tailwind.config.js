@@ -1,0 +1,146 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      colors: {
+        // Parent mode — clinical, trustworthy
+        parent: {
+          50: '#eef5ff',
+          100: '#d9e7ff',
+          200: '#bcd4ff',
+          300: '#8eb6ff',
+          400: '#588dff',
+          500: '#3168fb',
+          600: '#1d4ef5',
+          700: '#173de1',
+          800: '#1835b6',
+          900: '#1a338f',
+          950: '#141f57',
+        },
+        // Child mode — playful, energetic
+        child: {
+          50: '#fffbeb',
+          100: '#fff3c6',
+          200: '#ffe588',
+          300: '#ffd24d',
+          400: '#ffbe1f',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92470e',
+          900: '#783512',
+          950: '#451a03',
+        },
+        mint: {
+          50: '#effdf6',
+          100: '#d8faee',
+          200: '#b4f3dd',
+          300: '#7ee7c6',
+          400: '#41d3a8',
+          500: '#1bb88a',
+          600: '#109571',
+          700: '#0f765c',
+          800: '#115d4a',
+          900: '#134d3e',
+        },
+        coral: {
+          50: '#fff3f0',
+          100: '#ffe1d9',
+          200: '#ffc2b3',
+          300: '#ff9a82',
+          400: '#ff6a4a',
+          500: '#f44925',
+          600: '#de3516',
+          700: '#b82a14',
+          800: '#932718',
+          900: '#782517',
+        },
+        ink: {
+          50: '#f6f7fb',
+          100: '#ebedf6',
+          200: '#d5dae9',
+          300: '#b1bbd6',
+          400: '#8693bd',
+          500: '#6774a3',
+          600: '#525d87',
+          700: '#434c6e',
+          800: '#3a425c',
+          900: '#343a4f',
+          950: '#222635',
+        },
+      },
+      boxShadow: {
+        glow: '0 0 40px -10px var(--tw-shadow-color)',
+        soft: '0 8px 30px -12px rgba(20,31,87,0.18)',
+        card: '0 20px 50px -20px rgba(20,31,87,0.25)',
+        'inner-glow': 'inset 0 0 30px rgba(255,255,255,0.4)',
+      },
+      animation: {
+        'pulse-soft': 'pulseSoft 2.4s ease-in-out infinite',
+        float: 'float 6s ease-in-out infinite',
+        'spin-slow': 'spin 14s linear infinite',
+        'fade-up': 'fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both',
+        'fade-in': 'fadeIn 0.5s ease both',
+        pop: 'pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both',
+        breathe: 'breathe 4s ease-in-out infinite',
+        shimmer: 'shimmer 2.5s linear infinite',
+        'shake-x': 'shakeX 0.5s ease-in-out',
+        wiggle: 'wiggle 1.2s ease-in-out infinite',
+        'ping-slow': 'pingSlow 2.5s cubic-bezier(0,0,0.2,1) infinite',
+      },
+      keyframes: {
+        pulseSoft: {
+          '0%,100%': { opacity: '0.6', transform: 'scale(1)' },
+          '50%': { opacity: '1', transform: 'scale(1.04)' },
+        },
+        float: {
+          '0%,100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-14px)' },
+        },
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        pop: {
+          '0%': { transform: 'scale(0.9)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+        breathe: {
+          '0%,100%': { transform: 'scaleY(1)' },
+          '50%': { transform: 'scaleY(1.06)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+        shakeX: {
+          '0%,100%': { transform: 'translateX(0)' },
+          '25%': { transform: 'translateX(-6px)' },
+          '75%': { transform: 'translateX(6px)' },
+        },
+        wiggle: {
+          '0%,100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        pingSlow: {
+          '75%,100%': { transform: 'scale(1.8)', opacity: '0' },
+        },
+      },
+      backgroundImage: {
+        'grid-fade': 'radial-gradient(circle at center, transparent 0, var(--bg) 70%)',
+      },
+    },
+  },
+  plugins: [],
+};
